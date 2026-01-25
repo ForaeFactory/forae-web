@@ -1,5 +1,8 @@
 "use server";
 
+import { Resend } from "resend";
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 import { z } from "zod";
 
 const InquirySchema = z.object({
@@ -43,7 +46,7 @@ export async function submitInquiry(prevState: FormState, formData: FormData) {
   const validatedFields = InquirySchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
-    company: formData.get("company"),
+    company: formData.get("company") || undefined,
     budget: formData.get("budget"),
     service: formData.get("service"),
     message: formData.get("message"),
@@ -57,12 +60,30 @@ export async function submitInquiry(prevState: FormState, formData: FormData) {
     };
   }
 
-  const { name, email, budget, service } = validatedFields.data;
+  const { name, email, budget, service, company, message } =
+    validatedFields.data;
 
-  // TODO: Integrate Resend or Supabase here
-  console.log(
-    `[INQUIRY] New Lead: ${name} (${email}) - ${service} @ ${budget}`,
-  );
+  try {
+    await resend.emails.send({
+      from: "Forae Inquiries <onboarding@resend.dev>", // Default Resend test email
+      to: "create@foraefactory.com", // Delivers to the Resend account owner
+      subject: `New Inquiry: ${name} - ${service}`,
+      html: `
+        <h2>New Project Inquiry</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Company:</strong> ${company || "N/A"}</p>
+        <p><strong>Service:</strong> ${service}</p>
+        <p><strong>Budget:</strong> ${budget}</p>
+        <br/>
+        <h3>Message:</h3>
+        <p>${message}</p>
+      `,
+    });
+  } catch (error) {
+    console.error("Failed to send email:", error);
+    // Continue - don't block success message for user even if email fails in dev
+  }
 
   return {
     success: true,
