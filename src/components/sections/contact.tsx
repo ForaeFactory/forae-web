@@ -43,10 +43,10 @@ export default function ContactSection() {
               Direct Contact
             </span>
             <a
-              href="mailto:hello@forae.web"
+              href="mailto:create@foraefactory.com"
               className="text-lg hover:text-accent transition-colors"
             >
-              hello@forae.web
+              create@foraefactory.com
             </a>
           </div>
         </div>
