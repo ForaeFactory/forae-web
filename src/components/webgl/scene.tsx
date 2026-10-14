@@ -4,7 +4,7 @@ import { Canvas, useThree } from '@react-three/fiber';
 import { Suspense, useEffect } from 'react';
 import LiquidPlane from './liquid-plane';
 import ParallaxHero from './parallax-hero';
-import { useStore } from '@/store/useStore';
+import { DEFAULT_HERO_TEXTURE, useStore } from '@/store/useStore';
 
 // With frameloop="demand" nothing renders unless asked; pointer movement is
 // what drives the parallax, so request a frame whenever it moves.
@@ -32,6 +32,11 @@ function ReadySignal({ onReady }: { onReady?: () => void }) {
 
 export default function Scene({ onReady }: { onReady?: () => void }) {
   const activeSection = useStore((state) => state.activeSection);
+  const heroTexture = useStore((state) => state.heroTexture);
+  // The flat image layer is only for showing a hovered project or service; the
+  // rest of the time the layered hero stays, so leaving the hero never swaps
+  // the background to a differently framed copy of the same statue.
+  const showHoverImage = ['projects', 'services'].includes(activeSection) && heroTexture !== DEFAULT_HERO_TEXTURE;
 
   return (
     <Canvas
@@ -43,11 +48,7 @@ export default function Scene({ onReady }: { onReady?: () => void }) {
       <PointerInvalidator />
       <Suspense fallback={null}>
         <ReadySignal onReady={onReady} />
-        {['home', 'about', 'contact', 'toolkit'].includes(activeSection) ? (
-          <ParallaxHero />
-        ) : (
-          <LiquidPlane />
-        )}
+        {showHoverImage ? <LiquidPlane /> : <ParallaxHero />}
       </Suspense>
     </Canvas>
   );

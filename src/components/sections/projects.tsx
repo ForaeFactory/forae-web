@@ -4,7 +4,7 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInView, useMotionValue, useScroll, useSpring, useTransform, motion } from 'framer-motion';
-import { useStore } from '@/store/useStore';
+import { DEFAULT_HERO_TEXTURE, useStore } from '@/store/useStore';
 import { imageAlt, projects, type Project } from '@/data/content';
 import AutoplayVideo from '@/components/autoplay-video';
 import TransitionLink from '@/components/transition/transition-link';
@@ -35,6 +35,7 @@ function canRunWebGL() {
 
 export default function ProjectsSection() {
   const setActiveSection = useStore((state) => state.setActiveSection);
+  const setHeroTexture = useStore((state) => state.setHeroTexture);
   // The strip is the default; phones and reduced-motion visitors start on the index.
   const [view, setView] = useState<View>('strip');
 
@@ -52,7 +53,9 @@ export default function ProjectsSection() {
   const isInView = useInView(sectionRef, { amount: 0.2 });
   useEffect(() => {
     if (isInView) setActiveSection('projects');
-  }, [isInView, setActiveSection]);
+    // Drop the last hovered project's image so it doesn't linger behind Services.
+    else setHeroTexture(DEFAULT_HERO_TEXTURE);
+  }, [isInView, setActiveSection, setHeroTexture]);
 
   return view === 'strip' ? (
     <FilmStrip sectionRef={sectionRef} onViewChange={changeView} />

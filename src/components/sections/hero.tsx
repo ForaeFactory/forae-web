@@ -45,21 +45,21 @@ export default function HeroSection() {
       aria-labelledby="hero-heading"
       className="min-h-screen w-full flex flex-col items-center justify-center relative pointer-events-none px-6 py-28"
     >
-      {/* Content: items-end aligns subtitle to the right of the Name */}
-      <div className="z-10 flex flex-col items-end justify-center w-fit mx-auto">
-        <h1 id="hero-heading" className="text-fluid-h1 font-bold leading-none text-white uppercase mix-blend-difference tracking-tight">
+      {/* Content: centred on phones; on wider screens the rotating word sits under the right end of the name */}
+      <div className="z-10 flex flex-col items-center md:items-end justify-center w-fit mx-auto">
+        <h1 id="hero-heading" className="text-fluid-h1 font-bold leading-[0.9] text-white uppercase mix-blend-difference tracking-tight text-center md:text-left">
           Forae Factory
         </h1>
 
-        <div className="mt-1 relative" aria-hidden>
-          <div className="relative overflow-hidden px-2 py-1 flex justify-end">
+        <div className="mt-3 md:mt-1 relative" aria-hidden>
+          <div className="relative overflow-hidden px-2 py-1 flex justify-center md:justify-end">
             {/* Invisible Spacer: Forces container to width of longest word */}
             <span className="text-fluid-h4 font-serif tracking-normal opacity-0 select-none whitespace-nowrap">
               Technology
             </span>
 
             {/* Actual Text: Floating on top, right-aligned */}
-            <span className="absolute top-1 right-2 text-fluid-h4 font-serif tracking-normal text-accent whitespace-nowrap">
+            <span className="absolute top-1 left-1/2 -translate-x-1/2 md:left-auto md:right-2 md:translate-x-0 text-fluid-h4 font-serif tracking-normal text-accent whitespace-nowrap">
               {WORDS[index]}
             </span>
 
@@ -78,7 +78,7 @@ export default function HeroSection() {
       </div>
 
       {/* Value proposition + calls to action */}
-      <div className="z-10 mt-12 md:mt-16 flex flex-col items-center gap-8 text-center pointer-events-auto">
+      <div className="z-10 mt-10 md:mt-16 flex flex-col items-center gap-8 text-center pointer-events-auto">
         <p className="max-w-xl text-fluid-body text-ink/85 leading-relaxed">{SITE_DESCRIPTION}</p>
         <div className="flex flex-wrap justify-center gap-4">
           <Link
