@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 'use client';
 
-import { projects } from '@/data/content';
+import { projects, type MosaicImage } from '@/data/content';
 import { notFound } from 'next/navigation';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import MagneticButton from '@/components/magnetic-button';
@@ -70,7 +69,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
              </div>
          </div>
       </section>
-      {/* eslint-disable-next-line @typescript-eslint/no-unused-expressions */}
       <section className="bg-black py-32">
          <div className="space-y-32">
              
@@ -84,7 +82,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
              )}
 
              {/* Story Blocks */}
-             {project.story?.map((block: any, i: number) => {
+             {project.story?.map((block, i) => {
                  if (block.type === 'centered-text') {
                      return (
                          <div key={i} className="max-w-5xl mx-auto text-center px-4">
@@ -190,10 +188,10 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                  // Mosaic Gallery Block
                  if (block.type === 'mosaic-gallery') {
                      return (
-                         <div key={i} className="max-w-[90vw] mx-auto grid grid-cols-2 md:grid-cols-5 auto-rows-[300px] gap-4 px-4">
-                             {block.images.map((img: any, idx: number) => {
-                                 const spanClass = img.span || "col-span-1 row-span-1";
-                                 
+                         <div key={i} className="max-w-[90vw] mx-auto grid grid-cols-2 md:grid-cols-5 grid-flow-row-dense md:grid-flow-row auto-rows-[160px] md:auto-rows-[300px] gap-4 px-4">
+                             {block.images.map((img, idx) => {
+                                 const spanClass = mosaicSpanClasses(img);
+
                                  return (
                                      <motion.div 
                                         key={idx} 
@@ -240,6 +238,26 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   );
 }
 
+// Mosaic spans in content.ts are authored for the 5-column desktop grid. On
+// mobile the grid has 2 columns, so clamp spans to fit. Class names are spelled
+// out in full so Tailwind can see them.
+const MOBILE_COL_SPAN = ['col-span-1', 'col-span-1', 'col-span-2'];
+const DESKTOP_COL_SPAN = ['md:col-span-1', 'md:col-span-1', 'md:col-span-2', 'md:col-span-3', 'md:col-span-4', 'md:col-span-5'];
+const MOBILE_ROW_SPAN = ['row-span-1', 'row-span-1', 'row-span-2'];
+const DESKTOP_ROW_SPAN = ['md:row-span-1', 'md:row-span-1', 'md:row-span-2', 'md:row-span-3', 'md:row-span-4'];
+
+function mosaicSpanClasses(img: MosaicImage) {
+  const col = Number(img.span?.match(/col-span-(\d+)/)?.[1] ?? 1);
+  const row = Number(img.span?.match(/row-span-(\d+)/)?.[1] ?? 1);
+  const pick = (classes: string[], n: number) => classes[Math.min(n, classes.length - 1)];
+  return [
+    pick(MOBILE_COL_SPAN, col),
+    pick(DESKTOP_COL_SPAN, col),
+    pick(MOBILE_ROW_SPAN, row),
+    pick(DESKTOP_ROW_SPAN, row),
+  ].join(' ');
+}
+
 function HorizontalStoryGallery({ images, title, text }: { images: string[], title?: string, text?: string }) {
   const targetRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -251,21 +269,21 @@ function HorizontalStoryGallery({ images, title, text }: { images: string[], tit
 
   return (
     <div ref={targetRef} className="relative h-[300vh] bg-black">
-      <div className="sticky top-0 h-screen overflow-hidden flex bg-black">
-         
-         {/* Text Column - Fixed Left */}
+      <div className="sticky top-0 h-screen overflow-hidden flex flex-col md:flex-row bg-black">
+
+         {/* Text Column - stacked above the strip on mobile, fixed left on desktop */}
          {(title || text) && (
-             <div className="w-full md:w-[30vw] shrink-0 h-full flex flex-col justify-center px-8 md:px-12 z-20 bg-black border-r border-white/10">
-                 {title && <h3 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-6 text-white">{title}</h3>}
-                 {text && <p className="text-lg md:text-xl text-gray-200 leading-relaxed font-medium">{text}</p>}
+             <div className="w-full md:w-[30vw] shrink-0 md:h-full flex flex-col justify-center px-6 pt-24 pb-6 md:px-12 md:py-0 z-20 bg-black border-b md:border-b-0 md:border-r border-white/10">
+                 {title && <h3 className="text-2xl md:text-4xl font-bold uppercase tracking-tight mb-4 md:mb-6 text-white">{title}</h3>}
+                 {text && <p className="text-sm md:text-xl text-gray-200 leading-relaxed font-medium">{text}</p>}
              </div>
          )}
 
          {/* Gallery Column - Scrolling Right */}
-         <div className="flex-1 h-full overflow-hidden flex items-center bg-black/50">
-            <motion.div style={{ x }} className="flex gap-8 px-12 w-max">
+         <div className="flex-1 min-h-0 min-w-0 overflow-hidden flex items-center bg-black/50">
+            <motion.div style={{ x }} className="flex gap-4 md:gap-8 px-6 md:px-12 w-max">
                 {images.map((img, i) => (
-                    <div key={i} className="w-[70vw] md:w-[60vw] h-[60vh] md:h-[50vh] shrink-0 relative rounded-2xl overflow-hidden transition-all duration-500 bg-gray-900 border border-white/5">
+                    <div key={i} className="w-[80vw] md:w-[60vw] h-[40vh] md:h-[50vh] shrink-0 relative rounded-2xl overflow-hidden transition-all duration-500 bg-gray-900 border border-white/5">
                         <img src={img} alt="" className="w-full h-full object-cover" />
                     </div>
                 ))}

@@ -1,4 +1,51 @@
-export const projects = [
+export type MosaicImage = {
+  src: string;
+  /** Tailwind col/row spans for the 5-column desktop grid, e.g. "col-span-2 row-span-3". */
+  span?: string;
+};
+
+export type StoryBlock =
+  | { type: "centered-text"; text: string }
+  | { type: "text-block"; title: string; text: string }
+  | { type: "full-image"; src: string }
+  | { type: "image-row"; images: string[] }
+  | {
+      type: "split";
+      title: string;
+      text: string;
+      images?: string[];
+      src?: string;
+      layout?: "stacked";
+    }
+  | { type: "horizontal-gallery"; title?: string; text?: string; images: string[] }
+  | { type: "mosaic-gallery"; images: MosaicImage[] }
+  | { type: "centered-video"; src: string; title?: string }
+  | {
+      type: "theme-toggle";
+      title: string;
+      text: string;
+      images: { light: string; dark: string };
+    };
+
+export type Project = {
+  slug: string;
+  title: string;
+  client: string;
+  location: string;
+  tools: string[];
+  type: string;
+  visuals: {
+    hero: string;
+    video?: string;
+    gallery: string[];
+  };
+  description: string;
+  year: string;
+  role: string;
+  story?: StoryBlock[];
+};
+
+export const projects: Project[] = [
   {
     slug: "blseltzer",
     title: "Bud Light Seltzer",
@@ -448,7 +495,7 @@ export const agency = {
     linkedin: "https://linkedin.com/in/craigbrooks",
     github: "https://github.com/foraefactory",
   },
-  portrait: "/images/services/strategy.jpg", // Studio Architecture Placeholder
+  portrait: "/images/projects/khc-hero.png", // Studio Architecture Placeholder
 };
 
 export const services = [
@@ -457,27 +504,27 @@ export const services = [
     description:
       "Guiding the visual and technical narrative of digital products.",
     tags: ["Brand Strategy", "Art Direction"],
-    image: "/images/services/direction.jpg",
+    image: "/images/projects/blseltzer-hero.png",
   },
   {
     title: "Immersive Experiences",
     description: "3D environments and WebGL interactions that define brands.",
     tags: ["Three.js", "Shaders", "Physics"],
-    image: "/images/services/webgl.jpg",
+    image: "/images/projects/bewell-hero.png",
   },
   {
     title: "Motion & Interaction",
     description:
       "Meaningful micro-interactions that delight users and drive engagement.",
     tags: ["Prototyping", "Framer Motion", "GSAP"],
-    image: "/images/services/interaction.jpg",
+    image: "/images/projects/queue-hero.png",
   },
   {
     title: "Technical Strategy",
     description:
       "Scalable architecture for complex, high-performance applications.",
     tags: ["Next.js", "Headless CMS", "Systems Design"],
-    image: "/images/services/strategy.jpg",
+    image: "/images/projects/khc-hero.png",
   },
 ];
 

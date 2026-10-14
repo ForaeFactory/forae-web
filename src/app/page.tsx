@@ -8,7 +8,6 @@ import ToolkitSection from "@/components/sections/toolkit";
 import AboutSection from "@/components/sections/about";
 import ContactSection from "@/components/sections/contact";
 import ServicesSection from "@/components/sections/services";
-import TrustedBySection from "@/components/sections/trusted-by";
 import { useEffect, useState } from "react";
 
 export default function Home() {

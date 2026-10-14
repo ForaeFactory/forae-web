@@ -1,18 +1,24 @@
 "use client";
 
 import { useFormState, useFormStatus } from "react-dom";
-import { submitInquiry } from "@/app/actions";
-import { motion, AnimatePresence } from "framer-motion";
+import { submitInquiry, type FormState } from "@/app/actions";
+import { motion } from "framer-motion";
 import MagneticButton from "./magnetic-button";
-import { CheckCircle2, AlertCircle } from "lucide-react";
-// Note: lucide-react might need to be installed if not present, but usually common in these setups.
-// If it fails, I'll remove icons or use simple SVG.
 
-const initialState = {
+const initialState: FormState = {
   message: "",
   errors: {},
   success: false,
 };
+
+function FieldError({ id, errors }: { id: string; errors?: string[] }) {
+  if (!errors?.length) return null;
+  return (
+    <p id={id} className="text-red-400 text-xs ml-1">
+      {errors.join(" ")}
+    </p>
+  );
+}
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -31,7 +37,6 @@ function SubmitButton() {
 }
 
 export default function ProjectInquiryForm() {
-  // @ts-ignore - React 18/Next 14 type mismatch for useFormState is common
   const [state, formAction] = useFormState(submitInquiry, initialState);
 
   if (state.success) {
@@ -59,7 +64,7 @@ export default function ProjectInquiryForm() {
         </div>
         <h3 className="text-2xl font-bold text-white mb-2">Message Received</h3>
         <p className="text-white/60">
-          We'll review your inquiry and get back to you within 48 hours.
+          We&apos;ll review your inquiry and get back to you within 48 hours.
         </p>
       </motion.div>
     );
@@ -82,14 +87,14 @@ export default function ProjectInquiryForm() {
           <input
             id="name"
             name="name"
+            aria-invalid={!!state.errors?.name}
+            aria-describedby={state.errors?.name ? "name-error" : undefined}
             type="text"
             required
             className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors placeholder:text-white/20"
             placeholder="John Doe"
           />
-          {state.errors?.name && (
-            <p className="text-red-400 text-xs ml-1">{state.errors.name}</p>
-          )}
+          <FieldError id="name-error" errors={state.errors?.name} />
         </div>
 
         {/* Email */}
@@ -103,14 +108,14 @@ export default function ProjectInquiryForm() {
           <input
             id="email"
             name="email"
+            aria-invalid={!!state.errors?.email}
+            aria-describedby={state.errors?.email ? "email-error" : undefined}
             type="email"
             required
             className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors placeholder:text-white/20"
             placeholder="john@example.com"
           />
-          {state.errors?.email && (
-            <p className="text-red-400 text-xs ml-1">{state.errors.email}</p>
-          )}
+          <FieldError id="email-error" errors={state.errors?.email} />
         </div>
       </div>
 
@@ -127,6 +132,8 @@ export default function ProjectInquiryForm() {
             <select
               id="service"
               name="service"
+              aria-invalid={!!state.errors?.service}
+              aria-describedby={state.errors?.service ? "service-error" : undefined}
               className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors appearance-none cursor-pointer"
             >
               <option
@@ -177,6 +184,7 @@ export default function ProjectInquiryForm() {
               </svg>
             </div>
           </div>
+          <FieldError id="service-error" errors={state.errors?.service} />
         </div>
 
         {/* Budget */}
@@ -191,6 +199,8 @@ export default function ProjectInquiryForm() {
             <select
               id="budget"
               name="budget"
+              aria-invalid={!!state.errors?.budget}
+              aria-describedby={state.errors?.budget ? "budget-error" : undefined}
               className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors appearance-none cursor-pointer"
             >
               <option
@@ -240,6 +250,7 @@ export default function ProjectInquiryForm() {
               </svg>
             </div>
           </div>
+          <FieldError id="budget-error" errors={state.errors?.budget} />
         </div>
       </div>
 
@@ -254,20 +265,37 @@ export default function ProjectInquiryForm() {
         <textarea
           id="message"
           name="message"
+          aria-invalid={!!state.errors?.message}
+          aria-describedby={state.errors?.message ? "message-error" : undefined}
           rows={4}
           required
           className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors placeholder:text-white/20 resize-none"
           placeholder="Tell us about the project goals, timeline, and current status..."
         />
-        {state.errors?.message && (
-          <p className="text-red-400 text-xs ml-1">{state.errors.message}</p>
-        )}
+        <FieldError id="message-error" errors={state.errors?.message} />
+      </div>
+
+      {/* Honeypot: hidden from people and assistive tech, left for bots to fill */}
+      <div
+        aria-hidden="true"
+        className="absolute -left-[10000px] w-px h-px overflow-hidden"
+      >
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
       </div>
 
       <SubmitButton />
 
       {state.message && !state.success && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-200 text-sm text-center">
+        <div
+          role="alert"
+          className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-200 text-sm text-center">
           {state.message}
         </div>
       )}

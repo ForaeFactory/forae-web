@@ -5,6 +5,7 @@ import "./globals.css";
 import LenisProvider from "@/components/lenis-provider";
 import GrainOverlay from "@/components/grain-overlay";
 import PreloaderWrapper from "@/components/preloader-wrapper";
+import { SITE_URL } from "@/data/site";
 
 const googleSans = localFont({
   src: "./fonts/GoogleSansFlexVF.ttf",
@@ -18,6 +19,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     template: "%s | Forae Factory",
     default: "Forae Factory",
@@ -27,11 +29,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://forae.web",
+    url: "/",
     siteName: "Forae Factory",
-  },
-  icons: {
-    icon: "/images/logo/FF_Logo_blk.svg", // Using black logo for light mode tabs, or we could provide both
   },
 };
 
