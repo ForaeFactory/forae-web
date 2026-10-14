@@ -2,26 +2,28 @@
 
 import { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import Preloader from '@/components/preloader';
+import Preloader, { PRELOADER_DURATION_MS } from '@/components/preloader';
+
+const INTRO_SEEN_KEY = 'ff-intro-seen';
+
+// Runs in <head> before first paint. Returning visitors in the same session and
+// anyone who prefers reduced motion never see the intro, not even for a frame.
+export const INTRO_SKIP_SCRIPT = `try{if(sessionStorage.getItem('${INTRO_SEEN_KEY}')==='1'||matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.dataset.intro='skip'}}catch(e){}`;
 
 export default function PreloaderWrapper({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Wait for the primitive counting animation to finish roughly
-    // The Preloader component itself handles its own visual exit timing, 
-    // but we can toggle the 'children' visibility or just overlay the preloader.
-    // However, the Preloader has "exit" variants, so we should rely on AnimatePresence in the parent or inside.
-    // Let's modify logic: The Preloader will sit ON TOP. When it's done, it slides up.
-    // We can use a simple timeout for the wrapper state to unmount it after animation.
-    
-    // Total time = word duration * words + delay
-    // 5 words * ~250ms + extra = ~1.5s - 2s
-    
-    const timer = setTimeout(() => {
+    if (document.documentElement.dataset.intro === 'skip') {
       setIsLoading(false);
-    }, 2500);
-
+      return;
+    }
+    try {
+      sessionStorage.setItem(INTRO_SEEN_KEY, '1');
+    } catch {
+      // Storage can be blocked; the intro then simply plays each visit.
+    }
+    const timer = setTimeout(() => setIsLoading(false), PRELOADER_DURATION_MS + 150);
     return () => clearTimeout(timer);
   }, []);
 

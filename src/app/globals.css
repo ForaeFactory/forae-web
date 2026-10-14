@@ -2,23 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Design tokens. Components use the Tailwind names (bg-surface, text-muted,
+ * border-line, text-accent ...) rather than raw hex values.
+ * RGB triplets so Tailwind opacity modifiers (bg-surface/80) keep working.
+ */
+:root {
+  --color-surface: 5 5 5;            /* #050505 page background */
+  --color-surface-raised: 14 14 15;  /* cards, footer, menus */
+  --color-ink: 250 250 250;          /* primary text */
+  --color-muted: 163 163 163;        /* secondary text, 8:1 on surface */
+  --color-line: 255 255 255;         /* hairlines, used at /10 to /20 */
+  --color-accent: 198 168 72;        /* #C6A848 Forae gold */
+  --ease-house: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
 @layer base {
   html {
-     height: 100%;
-     overflow-y: auto;
-     scrollbar-width: none; /* Firefox */
-     -ms-overflow-style: none; /* IE/Edge */
+    color-scheme: dark;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--color-line) / 0.25) transparent;
   }
-  html::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
   body {
-     @apply bg-portfolio-bg text-portfolio-text antialiased;
-     font-family: var(--font-google-sans), sans-serif;
-     height: 100%;
-     width: 100%;
-     /* We allow body to scroll naturally so Lenis can work, 
-        but we intercept wheel events in ScrollManager to preventing free scrolling. */
+    @apply bg-surface text-ink antialiased;
+    font-family: var(--font-google-sans), sans-serif;
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--color-accent));
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* Small uppercase label above a section heading. */
+  .eyebrow {
+    @apply block text-xs uppercase tracking-[0.2em] text-accent;
+  }
+  .skip-link {
+    @apply fixed left-4 top-4 z-[10000] -translate-y-24 rounded-full bg-ink px-5 py-3 text-sm font-bold text-surface transition-transform focus:translate-y-0;
   }
 }
 
@@ -27,4 +54,9 @@
   .stroke-text {
     -webkit-text-stroke: 1px rgb(255 255 255 / 0.6);
   }
+}
+
+/* The intro is skipped before first paint for returning visitors and reduced motion. */
+html[data-intro="skip"] [data-preloader] {
+  display: none;
 }

@@ -9,7 +9,7 @@ import { vertexShader, fragmentShader } from './shaders';
 
 export default function LiquidPlane() {
   const meshRef = useRef<THREE.Mesh>(null);
-  const { viewport } = useThree();
+  const { viewport, invalidate } = useThree();
   
   // Subscribe to global texture state
   const heroTextureUrl = useStore((state) => state.heroTexture);
@@ -30,8 +30,9 @@ export default function LiquidPlane() {
   useEffect(() => {
     if (meshRef.current) {
         (meshRef.current.material as THREE.ShaderMaterial).uniforms.uTexture.value = texture;
+        invalidate(); // The canvas renders on demand, so ask for a frame.
     }
-  }, [texture]);
+  }, [texture, invalidate]);
   
   // Track mouse
   useFrame((state) => {

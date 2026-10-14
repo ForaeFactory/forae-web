@@ -63,7 +63,7 @@ export default function TrustedBySection() {
       </div>
 
       <div className="mt-4 text-center">
-        <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+        <p className="text-xs uppercase tracking-[0.3em] text-muted">
           Trusted by Market Leaders
         </p>
       </div>

@@ -43,7 +43,24 @@ export type Project = {
   year: string;
   role: string;
   story?: StoryBlock[];
+  /**
+   * Alt text keyed by image path. Images without an entry get a generated
+   * description from the project and block title (see imageAlt below), so add
+   * entries here for anything that carries meaning beyond "campaign image".
+   */
+  imageAlts?: Record<string, string>;
 };
+
+export function getProject(slug: string) {
+  return projects.find((project) => project.slug === slug);
+}
+
+export function imageAlt(project: Project, src: string, context?: string, position?: number) {
+  const authored = project.imageAlts?.[src];
+  if (authored) return authored;
+  const label = context ? `${project.title}, ${context}` : project.title;
+  return position === undefined ? label : `${label}, image ${position + 1}`;
+}
 
 export const projects: Project[] = [
   {
@@ -59,7 +76,7 @@ export const projects: Project[] = [
     ],
     type: "Campaign Strategy",
     visuals: {
-      hero: "/images/projects/blseltzer-hero.png",
+      hero: "/images/projects/blseltzer-hero.webp",
       gallery: [],
     },
     description:
@@ -73,15 +90,15 @@ export const projects: Project[] = [
       },
       {
         type: "full-image",
-        src: "/images/projects/blseltzer/blsFill-1.png",
+        src: "/images/projects/blseltzer/blsFill-1.webp",
       },
       {
         type: "split",
         title: "The Strategy",
         text: "Despite triple digit growth with Bon & Viv, Anheuser-Busch had fallen behind in the seltzer category. To compensate, they threw all their brewing power and their biggest brand into the category to create... \n Bud Light Seltzer: An easy-drinking hard seltzer with a hint of delicious fruit flavor. We make spiked seltzer the same way we make beer - with a superior process made to deliver refreshing taste.",
         images: [
-          "/images/projects/blseltzer/blsIntro-1.png",
-          "/images/projects/blseltzer/blsIntro-2.png",
+          "/images/projects/blseltzer/blsIntro-1.webp",
+          "/images/projects/blseltzer/blsIntro-2.webp",
         ],
       },
       {
@@ -89,14 +106,14 @@ export const projects: Project[] = [
         title: "Full Flavored Imagery",
         text: "Bud Light Seltzer entered the market as a challenger brand. Recognizing the parent brand, Bud Light lacked cultural texture or relevance to diverse young adults, they sought to flip the script with a targeted regional launch in Dallas—a city rich in cultural identity, music, art, and entrepreneurial energy. First step was casting and producing a vibrant, multicultural photoshoot in Dallas, Texas.",
         images: [
-          "/images/projects/blseltzer/blsCarousel-1.png",
-          "/images/projects/blseltzer/blsCarousel-2.png",
-          "/images/projects/blseltzer/blsCarousel-3.png",
-          "/images/projects/blseltzer/blsCarousel-4.png",
-          "/images/projects/blseltzer/blsCarousel-5.png",
-          "/images/projects/blseltzer/blsCarousel-6.png",
-          "/images/projects/blseltzer/blsCarousel-7.png",
-          "/images/projects/blseltzer/blsCarousel-8.png",
+          "/images/projects/blseltzer/blsCarousel-1.webp",
+          "/images/projects/blseltzer/blsCarousel-2.webp",
+          "/images/projects/blseltzer/blsCarousel-3.webp",
+          "/images/projects/blseltzer/blsCarousel-4.webp",
+          "/images/projects/blseltzer/blsCarousel-5.webp",
+          "/images/projects/blseltzer/blsCarousel-6.webp",
+          "/images/projects/blseltzer/blsCarousel-7.webp",
+          "/images/projects/blseltzer/blsCarousel-8.webp",
         ],
       },
       {
@@ -108,47 +125,47 @@ export const projects: Project[] = [
         type: "mosaic-gallery",
         images: [
           {
-            src: "/images/projects/blseltzer/blsMosaic-1.png",
+            src: "/images/projects/blseltzer/blsMosaic-1.webp",
             span: "col-span-2 row-span-3",
           }, // Big Box
           {
-            src: "/images/projects/blseltzer/blsMosaic-2.png",
+            src: "/images/projects/blseltzer/blsMosaic-2.webp",
             span: "col-span-3 row-span-2",
           }, // Wide Box
           {
-            src: "/images/projects/blseltzer/blsMosaic-3.png",
+            src: "/images/projects/blseltzer/blsMosaic-3.webp",
             span: "col-span-3 row-span-1",
           }, // Wide Strip
           {
-            src: "/images/projects/blseltzer/blsMosaic-4.png",
+            src: "/images/projects/blseltzer/blsMosaic-4.webp",
             span: "col-span-3 row-span-1",
           }, // Standard Strip
           {
-            src: "/images/projects/blseltzer/blsMosaic-5.png",
+            src: "/images/projects/blseltzer/blsMosaic-5.webp",
             span: "col-span-1 row-span-1",
           }, // Big Box
           {
-            src: "/images/projects/blseltzer/blsMosaic-6.png",
+            src: "/images/projects/blseltzer/blsMosaic-6.webp",
             span: "col-span-1 row-span-1",
           }, // Small
           {
-            src: "/images/projects/blseltzer/blsMosaic-7.png",
+            src: "/images/projects/blseltzer/blsMosaic-7.webp",
             span: "col-span-2 row-span-2",
           }, // Small
           {
-            src: "/images/projects/blseltzer/blsMosaic-8.png",
+            src: "/images/projects/blseltzer/blsMosaic-8.webp",
             span: "col-span-2 row-span-3",
           }, // Small
           {
-            src: "/images/projects/blseltzer/blsMosaic-11.png",
+            src: "/images/projects/blseltzer/blsMosaic-11.webp",
             span: "col-span-1 row-span-3",
           }, // Wide Box
           {
-            src: "/images/projects/blseltzer/blsMosaic-9.png",
+            src: "/images/projects/blseltzer/blsMosaic-9.webp",
             span: "col-span-2 row-span-2",
           }, // Big Box
           {
-            src: "/images/projects/blseltzer/blsMosaic-10.png",
+            src: "/images/projects/blseltzer/blsMosaic-10.webp",
             span: "col-span-3 row-span-1",
           }, // Wide Box
           // Wide Box
@@ -156,7 +173,7 @@ export const projects: Project[] = [
       },
       {
         type: "full-image",
-        src: "/images/projects/blseltzer/blsClose.png",
+        src: "/images/projects/blseltzer/blsClose.webp",
       },
     ],
   },
@@ -168,7 +185,7 @@ export const projects: Project[] = [
     tools: ["UX/UI Design", "Accessibility", "Next.js", "Content Strategy"],
     type: "Corporate Platform",
     visuals: {
-      hero: "/images/projects/khc-hero.png",
+      hero: "/images/projects/khc-hero.webp",
       video: "/videos/projects/khc.mp4",
       gallery: [],
     },
@@ -183,7 +200,7 @@ export const projects: Project[] = [
       },
       {
         type: "full-image",
-        src: "/images/projects/khc/khMainImage.png",
+        src: "/images/projects/khc/khMainImage.webp",
       },
       {
         type: "text-block",
@@ -194,11 +211,11 @@ export const projects: Project[] = [
         type: "horizontal-gallery",
         title: "The Strategy",
         images: [
-          "/images/projects/khc/khCarousel1.png",
-          "/images/projects/khc/khCarousel2.png",
-          "/images/projects/khc/khCarousel3.png",
-          "/images/projects/khc/khCarousel4.png",
-          "/images/projects/khc/khCarousel5.png",
+          "/images/projects/khc/khCarousel1.webp",
+          "/images/projects/khc/khCarousel2.webp",
+          "/images/projects/khc/khCarousel3.webp",
+          "/images/projects/khc/khCarousel4.webp",
+          "/images/projects/khc/khCarousel5.webp",
         ],
       },
       {
@@ -208,15 +225,15 @@ export const projects: Project[] = [
       },
       {
         type: "full-image",
-        src: "/images/projects/khc/khCarousel6.png",
+        src: "/images/projects/khc/khCarousel6.webp",
       },
       {
         type: "theme-toggle",
         title: "KH InsightSuite",
         text: "A comprehensive design system supporting both light and dark viewing modes for maximum accessibility.",
         images: {
-          light: "/images/projects/khc/khIconsLight.png",
-          dark: "/images/projects/khc/khIconsDark2.png",
+          light: "/images/projects/khc/khIconsLight.webp",
+          dark: "/images/projects/khc/khIconsDark2.webp",
         },
       },
     ],
@@ -229,7 +246,7 @@ export const projects: Project[] = [
     tools: ["Trade Marketing", "Experiential", "Multicultural", "Production"],
     type: "Brand Experience",
     visuals: {
-      hero: "/images/projects/budweiser-hero.png",
+      hero: "/images/projects/budweiser-hero.webp",
       video: "/videos/projects/budweiser.mp4",
       gallery: [],
     },
@@ -245,7 +262,7 @@ export const projects: Project[] = [
       },
       {
         type: "full-image",
-        src: "/images/projects/budweiser/budCover.png",
+        src: "/images/projects/budweiser/budCover.webp",
       },
 
       {
@@ -253,11 +270,11 @@ export const projects: Project[] = [
         title: "Tricks of the 'Trade'",
         text: "The brand’s marketing efforts have often leaned on national, one-size-fits-all strategies that underdeliver in culturally specific experiences. At a macro level, we needed to develop trade assets that can scale and align with current initiatives. That was our focus when for the first portion of the project.",
         images: [
-          "/images/projects/budweiser/budCarousel-1.png",
-          "/images/projects/budweiser/budCarousel-2.png",
-          "/images/projects/budweiser/budCarousel-3.png",
-          "/images/projects/budweiser/budCarousel-4.png",
-          "/images/projects/budweiser/budCarousel-5.png",
+          "/images/projects/budweiser/budCarousel-1.webp",
+          "/images/projects/budweiser/budCarousel-2.webp",
+          "/images/projects/budweiser/budCarousel-3.webp",
+          "/images/projects/budweiser/budCarousel-4.webp",
+          "/images/projects/budweiser/budCarousel-5.webp",
         ],
       },
 
@@ -266,10 +283,10 @@ export const projects: Project[] = [
         title: "Visual Vibes",
         text: "With macro trade assets done, we switched focus to regional experiences and imagery. The goal was simple: Reconnect with Houston’s consumer base that was driving sales through culturally relevant storytelling and vibrant imagery.",
         images: [
-          "/images/projects/budweiser/BudCulture.png",
-          "/images/projects/budweiser/BudCulture1.png",
-          "/images/projects/budweiser/BudCulture2.png",
-          "/images/projects/budweiser/BudCulture3.png",
+          "/images/projects/budweiser/BudCulture.webp",
+          "/images/projects/budweiser/BudCulture1.webp",
+          "/images/projects/budweiser/BudCulture2.webp",
+          "/images/projects/budweiser/BudCulture3.webp",
         ],
       },
       {
@@ -279,7 +296,7 @@ export const projects: Project[] = [
       },
       {
         type: "full-image",
-        src: "/images/projects/budweiser/budCulture2.png",
+        src: "/images/projects/budweiser/BudCulture2.webp",
       },
     ],
   },
@@ -291,7 +308,7 @@ export const projects: Project[] = [
     tools: ["Mobile App", "React Native", "HealthKit", "Social Integration"],
     type: "Lifestyle Hub",
     visuals: {
-      hero: "/images/projects/ultra-hero.png",
+      hero: "/images/projects/ultra-hero.webp",
       gallery: [],
     },
     description:
@@ -305,23 +322,23 @@ export const projects: Project[] = [
       },
       {
         type: "full-image",
-        src: "/images/projects/ultra/muPlace.png",
+        src: "/images/projects/ultra/muPlace.webp",
       },
       {
         type: "horizontal-gallery",
         title: "Trade: Clear Straightforward Benefits",
         text: "To fortify ULTRA's position as the 'Look of the Leader,' our execution centers on a clean brand re-envisioning across all lifestyle and trade touchpoints. This demands optimizing and simplifying the product story to ensure maximum impact and crystal-clear messaging. A key pillar of our approach will be to articulate the direct benefits to the consumer, this will be achieved through direct, easy-to-understand language and an intentional use of whitespace that maintains the brand's established premium visual identity and tone.",
         images: [
-          "/images/projects/ultra/mulTrade1_1.png",
-          "/images/projects/ultra/mulTrade2.png",
-          "/images/projects/ultra/mulTrade3_1.png",
-          "/images/projects/ultra/mulTrade4_1.png",
-          "/images/projects/ultra/mulTrade5.png",
+          "/images/projects/ultra/mulTrade1_1.webp",
+          "/images/projects/ultra/mulTrade2.webp",
+          "/images/projects/ultra/mulTrade3_1.webp",
+          "/images/projects/ultra/mulTrade4_1.webp",
+          "/images/projects/ultra/mulTrade5.webp",
         ],
       },
       {
         type: "full-image",
-        src: "/images/projects/ultra/mulPGFill.png",
+        src: "/images/projects/ultra/mulPGFill.webp",
       },
       {
         type: "text-block",
@@ -332,42 +349,42 @@ export const projects: Project[] = [
         type: "mosaic-gallery",
         images: [
           {
-            src: "/images/projects/ultra/mulExp1.png",
+            src: "/images/projects/ultra/mulExp1.webp",
             span: "col-span-2 row-span-2",
           },
           {
-            src: "/images/projects/ultra/mulExp2.png",
+            src: "/images/projects/ultra/mulExp2.webp",
             span: "col-span-3 row-span-2",
           },
           {
-            src: "/images/projects/ultra/mulExp3.png",
+            src: "/images/projects/ultra/mulExp3.webp",
             span: "col-span-3 row-span-1",
           },
           {
-            src: "/images/projects/ultra/mulExp4.png",
+            src: "/images/projects/ultra/mulExp4.webp",
             span: "col-span-2 row-span-1",
           },
           {
-            src: "/images/projects/ultra/mulExp5.png",
+            src: "/images/projects/ultra/mulExp5.webp",
             span: "col-span-2 row-span-2",
           },
           {
-            src: "/images/projects/ultra/mulExp6.png",
+            src: "/images/projects/ultra/mulExp6.webp",
             span: "col-span-3 row-span-2",
           },
           {
-            src: "/images/projects/ultra/mulExp7.png",
+            src: "/images/projects/ultra/mulExp7.webp",
             span: "col-span-1 row-span-1",
           },
           {
-            src: "/images/projects/ultra/mulExp9.png",
+            src: "/images/projects/ultra/mulExp9.webp",
             span: "col-span-2 row-span-1",
           },
         ],
       },
       {
         type: "full-image",
-        src: "/images/projects/ultra/mulFill3.png",
+        src: "/images/projects/ultra/mulFill3.webp",
       },
     ],
   },
@@ -379,7 +396,7 @@ export const projects: Project[] = [
     tools: ["Product Design", "Prototyping", "Motion Design", "UI/UX"],
     type: "Product Design",
     visuals: {
-      hero: "/images/projects/queue-hero.png",
+      hero: "/images/projects/queue-hero.webp",
       video: "/videos/projects/queue.mp4",
       gallery: [],
     },
@@ -394,17 +411,17 @@ export const projects: Project[] = [
       },
       {
         type: "full-image",
-        src: "/images/projects/queue/qIntro.png",
+        src: "/images/projects/queue/qIntro.webp",
       },
       {
         type: "horizontal-gallery",
         title: "User Research",
         text: "Key feedback highlights the importance of seamless onboarding, personalized interaction, and social recognition within the app experience. It seems engagement is driven by a blend of technical curiosity and emotional connection to music.",
         images: [
-          "/images/projects/queue/Data_q.png",
-          "/images/projects/queue/Personas_q.png",
-          "/images/projects/queue/Journeys_q.png",
-          "/images/projects/queue/Sketches_q.png",
+          "/images/projects/queue/Data_q.webp",
+          "/images/projects/queue/Personas_q.webp",
+          "/images/projects/queue/Journeys_q.webp",
+          "/images/projects/queue/Sketches_q.webp",
         ],
       },
       {
@@ -412,14 +429,14 @@ export const projects: Project[] = [
         title: "Design System",
         text: "To engage and retain users, Queue must balance intelligent design with opportunities for discovery, contribution, and community.",
         images: [
-          "/images/projects/queue/Logos_q.png",
-          "/images/projects/queue/Fonts_q.png",
-          "/images/projects/queue/Colors_q.png",
-          "/images/projects/queue/Buttons_q.png",
-          "/images/projects/queue/Components_q.png",
-          "/images/projects/queue/HeadFoot_q.png",
-          "/images/projects/queue/ui_q.png",
-          "/images/projects/queue/HifiRoutes_q.png",
+          "/images/projects/queue/Logos_q.webp",
+          "/images/projects/queue/Fonts_q.webp",
+          "/images/projects/queue/Colors_q.webp",
+          "/images/projects/queue/Buttons_q.webp",
+          "/images/projects/queue/Components_q.webp",
+          "/images/projects/queue/HeadFoot_q.webp",
+          "/images/projects/queue/ui_q.webp",
+          "/images/projects/queue/HifiRoutes_q.webp",
         ],
       },
       {
@@ -437,7 +454,7 @@ export const projects: Project[] = [
     tools: ["Rebranding", "Typography", "Logo Design", "Color System"],
     type: "E-Commerce",
     visuals: {
-      hero: "/images/projects/bewell-hero.png",
+      hero: "/images/projects/bewell-hero.webp",
       gallery: [],
     },
     description:
@@ -451,29 +468,29 @@ export const projects: Project[] = [
       },
       {
         type: "full-image",
-        src: "/images/projects/bewell/bw-1_brand.png",
+        src: "/images/projects/bewell/bw-1_brand.webp",
       },
       {
         type: "horizontal-gallery",
         title: "Getting Acclimated",
         text: "The aim is to evolve its visual identity and messaging to better reflect its current values and market position. This initiative will strategically refine Bewell's core assets, including its logo, color palette, and brand voice, to create a more modern, cohesive, and compelling brand presence that resonates with its target audience and supports future growth.",
         images: [
-          "/images/projects/bewell/bw-3_brand.png",
-          "/images/projects/bewell/bw-4_brand.png",
-          "/images/projects/bewell/bw-5_brand.png",
+          "/images/projects/bewell/bw-3_brand.webp",
+          "/images/projects/bewell/bw-4_brand.webp",
+          "/images/projects/bewell/bw-5_brand.webp",
         ],
       },
       {
         type: "full-image",
-        src: "/images/projects/bewell/bw-6_brand.png",
+        src: "/images/projects/bewell/bw-6_brand.webp",
       },
       {
         type: "horizontal-gallery",
         images: [
-          "/images/projects/bewell/bw-8_brand.png",
-          "/images/projects/bewell/bw-9_brand.png",
-          "/images/projects/bewell/bw-10_brand.png",
-          "/images/projects/bewell/bw-2_brand.png",
+          "/images/projects/bewell/bw-8_brand.webp",
+          "/images/projects/bewell/bw-9_brand.webp",
+          "/images/projects/bewell/bw-10_brand.webp",
+          "/images/projects/bewell/bw-2_brand.webp",
         ],
       },
       {
@@ -495,7 +512,7 @@ export const agency = {
     linkedin: "https://linkedin.com/in/craigbrooks",
     github: "https://github.com/foraefactory",
   },
-  portrait: "/images/projects/khc-hero.png", // Studio Architecture Placeholder
+  portrait: "/images/projects/khc-hero.webp", // Studio Architecture Placeholder
 };
 
 export const services = [
@@ -504,27 +521,27 @@ export const services = [
     description:
       "Guiding the visual and technical narrative of digital products.",
     tags: ["Brand Strategy", "Art Direction"],
-    image: "/images/projects/blseltzer-hero.png",
+    image: "/images/projects/blseltzer-hero.webp",
   },
   {
     title: "Immersive Experiences",
     description: "3D environments and WebGL interactions that define brands.",
     tags: ["Three.js", "Shaders", "Physics"],
-    image: "/images/projects/bewell-hero.png",
+    image: "/images/projects/bewell-hero.webp",
   },
   {
     title: "Motion & Interaction",
     description:
       "Meaningful micro-interactions that delight users and drive engagement.",
     tags: ["Prototyping", "Framer Motion", "GSAP"],
-    image: "/images/projects/queue-hero.png",
+    image: "/images/projects/queue-hero.webp",
   },
   {
     title: "Technical Strategy",
     description:
       "Scalable architecture for complex, high-performance applications.",
     tags: ["Next.js", "Headless CMS", "Systems Design"],
-    image: "/images/projects/khc-hero.png",
+    image: "/images/projects/khc-hero.webp",
   },
 ];
 

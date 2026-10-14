@@ -21,7 +21,7 @@ export default function AboutSection() {
     <section
       id="about"
       ref={ref}
-      className="min-h-screen w-full flex items-center justify-center snap-start relative px-10 py-24"
+      className="min-h-screen w-full flex items-center justify-center relative px-10 py-24"
     >
       <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-20 z-10">
         {/* LEFT: Sticky Header */}
@@ -32,7 +32,7 @@ export default function AboutSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
             >
-              <span className="block text-xs uppercase tracking-widest text-accent mb-4">
+              <span className="eyebrow mb-4">
                 The Studio
               </span>
               <h2 className="text-6xl md:text-8xl font-bold leading-none -ml-1 mb-6">
@@ -87,19 +87,19 @@ export default function AboutSection() {
           {/* Stats / Socials */}
           <div className="grid grid-cols-3 gap-8 border-t border-white/10 pt-10">
             <div>
-              <span className="block text-xs uppercase tracking-widest text-white/40 mb-2">
+              <span className="block text-xs uppercase tracking-widest text-muted mb-2">
                 Founded
               </span>
               <span className="text-4xl font-bold">{agency.founded}</span>
             </div>
             <div>
-              <span className="block text-xs uppercase tracking-widest text-white/40 mb-2">
+              <span className="block text-xs uppercase tracking-widest text-muted mb-2">
                 Projects
               </span>
               <span className="text-4xl font-bold text-accent">20+</span>
             </div>
             <div>
-              <span className="block text-xs uppercase tracking-widest text-white/40 mb-2">
+              <span className="block text-xs uppercase tracking-widest text-muted mb-2">
                 Clients
               </span>
               <span className="text-4xl font-bold text-accent">10+</span>
