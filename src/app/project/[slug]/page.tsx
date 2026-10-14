@@ -7,6 +7,7 @@ import { SITE_NAME } from '@/data/site';
 import JsonLd from '@/components/json-ld';
 import MagneticButton from '@/components/magnetic-button';
 import MoreProjects from '@/components/more-projects';
+import NextProject from '@/components/project/next-project';
 import ProjectHero from '@/components/project/project-hero';
 import StoryBlocks from '@/components/project/story-blocks';
 import SiteFooter from '@/components/site-footer';
@@ -74,6 +75,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
       <main id="main" className="min-h-screen bg-surface text-ink selection:bg-white/20">
         <ProjectHero project={project} />
         <StoryBlocks project={project} />
+        <NextProject currentSlug={project.slug} />
         <MoreProjects currentSlug={project.slug} />
       </main>
 

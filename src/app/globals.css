@@ -56,6 +56,32 @@
   }
 }
 
+/* Text that rises into place (case-study title after the page transition). */
+@keyframes rise {
+  from {
+    transform: translateY(105%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .animate-rise {
+    animation: rise 0.9s var(--ease-house) both;
+  }
+  html[data-page-transition="active"] .animate-rise {
+    animation-play-state: paused;
+  }
+}
+
+/* Work strip: once the WebGL layer has drawn the cards, hide their DOM images
+   (they stay in the DOM for layout, links and the page transition). */
+[data-webgl="ready"] [data-strip-media] {
+  opacity: 0;
+}
+
 /* The intro is skipped before first paint for returning visitors and reduced motion. */
 html[data-intro="skip"] [data-preloader] {
   display: none;
