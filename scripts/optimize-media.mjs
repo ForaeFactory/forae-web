@@ -18,7 +18,18 @@ import { execFileSync } from "node:child_process";
 import { existsSync, readdirSync, renameSync, statSync, unlinkSync, mkdirSync } from "node:fs";
 import { extname, join, basename, dirname } from "node:path";
 import sharp from "sharp";
-import ffmpegPath from "ffmpeg-static";
+
+// Video needs ffmpeg: FFMPEG_PATH, else the ffmpeg-static package if installed
+// (`npm i --no-save ffmpeg-static`; kept out of package.json so builds stay fast),
+// else ffmpeg on PATH.
+async function resolveFfmpeg() {
+  if (process.env.FFMPEG_PATH) return process.env.FFMPEG_PATH;
+  try {
+    return (await import("ffmpeg-static")).default;
+  } catch {
+    return "ffmpeg";
+  }
+}
 
 const MAX_EDGE = 2400;
 const WEBP_QUALITY = 80;
@@ -58,7 +69,7 @@ async function optimizeImage(file) {
   return [before, after, out];
 }
 
-function optimizeVideo(file) {
+function optimizeVideo(file, ffmpegPath) {
   const tmp = file.replace(/\.(mp4|mov)$/i, ".opt.mp4");
   execFileSync(ffmpegPath, [
     "-y", "-loglevel", "error", "-i", file,
@@ -130,10 +141,11 @@ async function main() {
     process.exit(1);
   }
   const files = collect(targets, mode === "images" ? IMAGE_EXT : VIDEO_EXT);
+  const ffmpegPath = mode === "videos" ? await resolveFfmpeg() : null;
   let totalBefore = 0;
   let totalAfter = 0;
   for (const file of files) {
-    const [before, after, out] = mode === "images" ? await optimizeImage(file) : optimizeVideo(file);
+    const [before, after, out] = mode === "images" ? await optimizeImage(file) : optimizeVideo(file, ffmpegPath);
     totalBefore += before;
     totalAfter += after;
     console.log(`${basename(dirname(out))}/${basename(out)}  ${mb(before)} -> ${mb(after)}`);
