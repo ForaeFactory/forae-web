@@ -20,9 +20,8 @@ void main() {
   vUv = uv;
   vec3 p = position;
   // The card bows sideways while the strip moves, like film pulled through a gate.
+  // (The card's size never changes; hover zoom happens inside the image.)
   p.x += sin(uv.y * 3.14159265) * uVelocity * 0.06;
-  // A slight lift on hover.
-  p *= 1.0 + uHover * 0.02;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
 }
 `;
@@ -68,6 +67,11 @@ void main() {
     vec3 video = texture2D(uVideo, cover(uv, uPlane, uVideoSize)).rgb;
     color = mix(color, video, uVideoMix);
   }
+
+  // Legibility shade for the title, drawn here so it moves and bends with the
+  // image (black at the bottom, fading out by the top: 80% -> 32% -> 0%).
+  float shade = vUv.y < 0.5 ? mix(0.8, 0.32, vUv.y / 0.5) : mix(0.32, 0.0, (vUv.y - 0.5) / 0.5);
+  color = mix(color, vec3(0.0), shade);
 
   // Rounded corners to match the DOM card (rounded-xl).
   vec2 px = vUv * uPlane;

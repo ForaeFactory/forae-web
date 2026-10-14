@@ -81,6 +81,10 @@
 [data-webgl="ready"] [data-strip-media] {
   opacity: 0;
 }
+/* The WebGL image bows while moving; a fixed DOM border would show as a box. */
+[data-webgl="ready"] [data-strip-card] {
+  border-color: transparent;
+}
 
 /* The intro is skipped before first paint for returning visitors and reduced motion. */
 html[data-intro="skip"] [data-preloader] {

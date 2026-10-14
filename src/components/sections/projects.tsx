@@ -216,6 +216,7 @@ function StripCard({
   return (
     <li
       data-transition-scope
+      data-strip-card
       className="group relative isolate w-[85vw] md:w-[70vw] h-[70vh] shrink-0 flex flex-col justify-end p-6 md:p-12 border border-line/10 overflow-hidden rounded-xl md:cursor-none"
       onMouseEnter={() => {
         onHover(true);
@@ -246,7 +247,8 @@ function StripCard({
           />
         )}
       </div>
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 pointer-events-none" />
+      {/* Title shade for the DOM fallback; the WebGL layer draws its own */}
+      <div aria-hidden data-strip-media className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 pointer-events-none" />
 
       {/* The whole card is one link */}
       <TransitionLink
@@ -260,7 +262,7 @@ function StripCard({
 
       {/* Keyboard focus gets the label the mouse gets from the cursor */}
       <div aria-hidden className="absolute inset-0 z-[5] flex items-center justify-center opacity-0 group-has-[a:focus-visible]:opacity-100 transition-opacity duration-300 pointer-events-none">
-        <span className="px-10 py-5 rounded-full bg-ink text-surface uppercase tracking-widest text-lg font-bold">View project</span>
+        <span className="px-10 py-5 rounded-full bg-accent text-surface font-serif italic text-2xl">View project</span>
       </div>
 
       {/* Content (clicks pass through to the card link) */}
