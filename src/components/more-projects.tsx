@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { imageAlt, projects, type Project } from '@/data/content';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
+import TransitionLink from '@/components/transition/transition-link';
 import { useEffect, useRef, useState } from 'react';
 
 interface MoreProjectsProps {
@@ -12,8 +12,9 @@ interface MoreProjectsProps {
 
 export default function MoreProjects({ currentSlug }: MoreProjectsProps) {
   const currentIndex = projects.findIndex((p) => p.slug === currentSlug);
-  // Start with the next project so the grid reads as "what's next".
-  const otherProjects = [...projects.slice(currentIndex + 1), ...projects.slice(0, currentIndex)];
+  // Continue the order after the Next Project panel, which already shows the
+  // following case study.
+  const otherProjects = [...projects.slice(currentIndex + 1), ...projects.slice(0, currentIndex)].slice(1);
 
   return (
     <section aria-labelledby="more-projects-heading" className="w-full bg-surface-raised py-32 px-4 md:px-12 border-t border-line/10">
@@ -26,10 +27,10 @@ export default function MoreProjects({ currentSlug }: MoreProjectsProps) {
           transition={{ duration: 0.6 }}
           className="text-4xl md:text-6xl font-bold uppercase tracking-tight text-ink mb-20 text-center"
         >
-          More Selected Projects
+          More Work
         </motion.h2>
 
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {otherProjects.map((project, i) => (
             <ProjectCard key={project.slug} project={project} index={i} />
           ))}
@@ -63,20 +64,20 @@ function ProjectCard({ project, index }: { project: Project, index: number }) {
       transition={{ duration: 0.5, delay: index * 0.08 }}
       className="group"
     >
-      <Link
+      <TransitionLink
         href={`/project/${project.slug}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onFocus={() => setIsHovered(true)}
         onBlur={() => setIsHovered(false)}
       >
-        <div className="relative w-full aspect-[4/5] overflow-hidden rounded-xl bg-surface border border-line/10 mb-6">
+        <div className="relative w-full aspect-[4/5] overflow-hidden rounded-xl bg-surface border border-line/10 mb-6" data-transition-source>
           {/* Static Image */}
           <Image
             src={project.visuals.hero}
             alt={imageAlt(project, project.visuals.hero, 'hero image')}
             fill
-            sizes="(min-width: 1280px) 18vw, (min-width: 1024px) 30vw, (min-width: 768px) 45vw, 90vw"
+            sizes="(min-width: 1024px) 22vw, (min-width: 768px) 45vw, 90vw"
             className={`object-cover transition-opacity duration-700 ${isHovered && project.visuals.video ? 'opacity-0' : 'opacity-100'}`}
           />
 
@@ -102,7 +103,7 @@ function ProjectCard({ project, index }: { project: Project, index: number }) {
             <span className="text-xs font-medium tracking-widest text-muted uppercase">{project.type}</span>
             <h3 className="text-2xl font-bold text-ink group-hover:text-accent transition-colors">{project.title}</h3>
         </div>
-      </Link>
+      </TransitionLink>
     </motion.li>
   );
 }

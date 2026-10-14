@@ -20,11 +20,18 @@ export const fragmentShader = `
 uniform sampler2D uTexture;
 uniform float uTime;
 uniform vec2 uMouse;
+uniform float uPlaneAspect;
+uniform float uImageAspect;
 varying vec2 vUv;
 
 void main() {
-  vec2 uv = vUv;
-  
+  // object-fit: cover. Crop the image to the screen's shape instead of
+  // stretching it (a 16:9 image on a portrait phone was squeezed thin).
+  vec2 scale = uPlaneAspect > uImageAspect
+    ? vec2(1.0, uImageAspect / uPlaneAspect)
+    : vec2(uPlaneAspect / uImageAspect, 1.0);
+  vec2 uv = (vUv - 0.5) * scale + 0.5;
+
   // clean texture - no grain, no aberration
   vec4 color = texture2D(uTexture, uv);
 

@@ -22,6 +22,8 @@ export default function LiquidPlane() {
       uMouse: { value: new THREE.Vector2(0.5, 0.5) },
       uScroll: { value: 0 },
       uTexture: { value: texture },
+      uPlaneAspect: { value: 1 },
+      uImageAspect: { value: 16 / 9 },
     }),
     [] // Re-run when texture *object* changes? No, we update the uniform value.
   );
@@ -29,10 +31,21 @@ export default function LiquidPlane() {
   // Update uniform when texture loads
   useEffect(() => {
     if (meshRef.current) {
-        (meshRef.current.material as THREE.ShaderMaterial).uniforms.uTexture.value = texture;
+        const material = meshRef.current.material as THREE.ShaderMaterial;
+        const image = texture.image as { width?: number; height?: number } | undefined;
+        material.uniforms.uTexture.value = texture;
+        if (image?.width && image?.height) material.uniforms.uImageAspect.value = image.width / image.height;
         invalidate(); // The canvas renders on demand, so ask for a frame.
     }
   }, [texture, invalidate]);
+
+  // Keep the cover crop in step with the screen shape.
+  useEffect(() => {
+    if (meshRef.current) {
+        (meshRef.current.material as THREE.ShaderMaterial).uniforms.uPlaneAspect.value = viewport.width / viewport.height;
+        invalidate();
+    }
+  }, [viewport.width, viewport.height, invalidate]);
   
   // Track mouse
   useFrame((state) => {
