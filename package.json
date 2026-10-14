@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "media": "node scripts/optimize-media.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^9.122.0",
@@ -21,6 +22,7 @@
     "react-dom": "^18",
     "resend": "^6.8.0",
     "sass": "^1.95.1",
+    "sharp": "^0.33.5",
     "tailwind-merge": "^3.4.0",
     "three": "^0.181.2",
     "zod": "^3.23.8",
@@ -32,6 +34,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.33",
+    "ffmpeg-static": "^5.2.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"

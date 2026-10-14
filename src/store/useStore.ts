@@ -10,7 +10,7 @@ interface State {
   setLenis: (lenis: Lenis | null) => void;
 }
 
-export const DEFAULT_HERO_TEXTURE = '/images/hero/layers/rock-main.png';
+export const DEFAULT_HERO_TEXTURE = '/images/hero/layers/rock-main.webp';
 
 export const useStore = create<State>((set) => ({
   activeSection: 'home',

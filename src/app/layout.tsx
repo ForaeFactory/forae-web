@@ -8,9 +8,10 @@ import PreloaderWrapper from "@/components/preloader-wrapper";
 import { SITE_URL } from "@/data/site";
 
 const googleSans = localFont({
-  src: "./fonts/GoogleSansFlexVF.ttf",
+  src: "./fonts/GoogleSansFlex-latin.woff2",
   variable: "--font-google-sans",
-  weight: "100 1000",
+  weight: "1 1000",
+  display: "swap",
 });
 
 const playfair = Playfair_Display({

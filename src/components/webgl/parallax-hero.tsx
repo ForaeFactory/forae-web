@@ -34,15 +34,15 @@ export default function ParallaxHero() {
   
   // Load all 9 layers
   const textures = useTexture([
-    '/images/hero/layers/rock-main.png',
-    '/images/hero/layers/rock-2.png',
-    '/images/hero/layers/rock-3.png',
-    '/images/hero/layers/rock-4.png',
-    '/images/hero/layers/rock-5.png',
-    '/images/hero/layers/rock-6.png',
-    '/images/hero/layers/rock-7.png',
-    '/images/hero/layers/rock-8.png',
-    '/images/hero/layers/rock-9.png',
+    '/images/hero/layers/rock-main.webp',
+    '/images/hero/layers/rock-2.webp',
+    '/images/hero/layers/rock-3.webp',
+    '/images/hero/layers/rock-4.webp',
+    '/images/hero/layers/rock-5.webp',
+    '/images/hero/layers/rock-6.webp',
+    '/images/hero/layers/rock-7.webp',
+    '/images/hero/layers/rock-8.webp',
+    '/images/hero/layers/rock-9.webp',
   ]);
 
   const group = useRef<THREE.Group>(null);
