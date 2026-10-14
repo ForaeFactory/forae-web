@@ -76,6 +76,7 @@ export default function ParallaxHero() {
       current + (target - current) * factor;
 
     // Rigid Body Repulsion
+    let settling = false;
     group.current.children.forEach((child, i) => {
         const config = layerConfig[i];
         if (!config || config.isSolid) return; // Skip static rocks
@@ -85,7 +86,12 @@ export default function ParallaxHero() {
         
         child.position.x = lerp(child.position.x, targetX, 0.05);
         child.position.y = lerp(child.position.y, targetY, 0.05);
+        if (Math.abs(targetX - child.position.x) + Math.abs(targetY - child.position.y) > 0.0005) settling = true;
     });
+
+    // The canvas renders on demand: keep requesting frames only while the
+    // layers are still easing toward the pointer, then let the GPU idle.
+    if (settling) state.invalidate();
   });
 
   const baseScale = 1.2; 

@@ -80,7 +80,7 @@ export default function ProjectInquiryForm() {
         <div className="space-y-2">
           <label
             htmlFor="name"
-            className="text-xs uppercase tracking-widest text-white/40 ml-1"
+            className="text-xs uppercase tracking-widest text-muted ml-1"
           >
             Name
           </label>
@@ -91,7 +91,7 @@ export default function ProjectInquiryForm() {
             aria-describedby={state.errors?.name ? "name-error" : undefined}
             type="text"
             required
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors placeholder:text-white/20"
+            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors placeholder:text-white/45"
             placeholder="John Doe"
           />
           <FieldError id="name-error" errors={state.errors?.name} />
@@ -101,7 +101,7 @@ export default function ProjectInquiryForm() {
         <div className="space-y-2">
           <label
             htmlFor="email"
-            className="text-xs uppercase tracking-widest text-white/40 ml-1"
+            className="text-xs uppercase tracking-widest text-muted ml-1"
           >
             Email
           </label>
@@ -112,7 +112,7 @@ export default function ProjectInquiryForm() {
             aria-describedby={state.errors?.email ? "email-error" : undefined}
             type="email"
             required
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors placeholder:text-white/20"
+            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors placeholder:text-white/45"
             placeholder="john@example.com"
           />
           <FieldError id="email-error" errors={state.errors?.email} />
@@ -124,7 +124,7 @@ export default function ProjectInquiryForm() {
         <div className="space-y-2">
           <label
             htmlFor="service"
-            className="text-xs uppercase tracking-widest text-white/40 ml-1"
+            className="text-xs uppercase tracking-widest text-muted ml-1"
           >
             Service
           </label>
@@ -191,7 +191,7 @@ export default function ProjectInquiryForm() {
         <div className="space-y-2">
           <label
             htmlFor="budget"
-            className="text-xs uppercase tracking-widest text-white/40 ml-1"
+            className="text-xs uppercase tracking-widest text-muted ml-1"
           >
             Budget
           </label>
@@ -258,7 +258,7 @@ export default function ProjectInquiryForm() {
       <div className="space-y-2">
         <label
           htmlFor="message"
-          className="text-xs uppercase tracking-widest text-white/40 ml-1"
+          className="text-xs uppercase tracking-widest text-muted ml-1"
         >
           Project Details
         </label>
@@ -269,7 +269,7 @@ export default function ProjectInquiryForm() {
           aria-describedby={state.errors?.message ? "message-error" : undefined}
           rows={4}
           required
-          className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors placeholder:text-white/20 resize-none"
+          className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors placeholder:text-white/45 resize-none"
           placeholder="Tell us about the project goals, timeline, and current status..."
         />
         <FieldError id="message-error" errors={state.errors?.message} />

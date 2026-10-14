@@ -21,12 +21,12 @@ export default function ContactSection() {
     <section
       id="contact"
       ref={ref}
-      className="min-h-screen w-full flex items-center justify-center snap-start relative px-6 md:px-10 py-24"
+      className="min-h-screen w-full flex items-center justify-center relative px-6 md:px-10 py-24"
     >
       <div className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-start z-10">
         {/* Left: Heading & Context */}
         <div className="flex flex-col space-y-8 sticky top-32">
-          <span className="block text-xs uppercase tracking-widest text-accent mb-2">
+          <span className="eyebrow mb-2">
             Inquiry
           </span>
           <h2 className="text-5xl md:text-7xl font-bold leading-none text-white">
@@ -39,7 +39,7 @@ export default function ContactSection() {
           </p>
 
           <div className="pt-10 border-t border-white/10 mt-10">
-            <span className="block text-xs uppercase tracking-widest text-white/40 mb-2">
+            <span className="block text-xs uppercase tracking-widest text-muted mb-2">
               Direct Contact
             </span>
             <a

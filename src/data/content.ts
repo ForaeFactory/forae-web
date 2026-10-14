@@ -43,7 +43,24 @@ export type Project = {
   year: string;
   role: string;
   story?: StoryBlock[];
+  /**
+   * Alt text keyed by image path. Images without an entry get a generated
+   * description from the project and block title (see imageAlt below), so add
+   * entries here for anything that carries meaning beyond "campaign image".
+   */
+  imageAlts?: Record<string, string>;
 };
+
+export function getProject(slug: string) {
+  return projects.find((project) => project.slug === slug);
+}
+
+export function imageAlt(project: Project, src: string, context?: string, position?: number) {
+  const authored = project.imageAlts?.[src];
+  if (authored) return authored;
+  const label = context ? `${project.title}, ${context}` : project.title;
+  return position === undefined ? label : `${label}, image ${position + 1}`;
+}
 
 export const projects: Project[] = [
   {
