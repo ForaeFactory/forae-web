@@ -1,13 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useStore } from "@/store/useStore";
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
-  const activeSection = useStore((state) => state.activeSection);
 
   const navItems = [
     { id: "projects", label: "Projects" },

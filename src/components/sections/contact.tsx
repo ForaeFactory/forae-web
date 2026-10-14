@@ -34,7 +34,7 @@ export default function ContactSection() {
             PROJECT
           </h2>
           <p className="text-xl md:text-2xl text-white/60 max-w-md leading-relaxed">
-            Ready to separate yourself from the competition? Let's build a
+            Ready to separate yourself from the competition? Let&apos;s build a
             digital ecosystem that drives real business results.
           </p>
 

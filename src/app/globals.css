@@ -21,3 +21,10 @@
         but we intercept wheel events in ScrollManager to preventing free scrolling. */
   }
 }
+
+@layer utilities {
+  /* Outlined display text (toolkit + trusted-by banners). */
+  .stroke-text {
+    -webkit-text-stroke: 1px rgb(255 255 255 / 0.6);
+  }
+}

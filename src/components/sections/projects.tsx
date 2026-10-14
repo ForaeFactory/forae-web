@@ -1,13 +1,12 @@
 'use client';
 
 import { useStore } from '@/store/useStore';
-import { useEffect, useRef } from 'react';
-import { useScroll, useTransform, useSpring, useVelocity, useMotionValue, motion } from 'framer-motion';
-import { projects } from '@/data/content';
+import { useRef } from 'react';
+import { useScroll, useTransform, useSpring, motion } from 'framer-motion';
+import { projects, type Project } from '@/data/content';
 import Link from 'next/link';
 
 export default function ProjectsSection() {
-  const setActiveSection = useStore((state) => state.setActiveSection);
   const targetRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -44,8 +43,8 @@ export default function ProjectsSection() {
           </div>
 
           {/* Project Cards */}
-          {projects.map((project, i) => (
-            <ProjectCard key={project.slug} project={project} index={i} />
+          {projects.map((project) => (
+            <ProjectCard key={project.slug} project={project} />
           ))}
 
           {/* End Spacer */}
@@ -56,7 +55,7 @@ export default function ProjectsSection() {
   );
 }
 
-function ProjectCard({ project, index }: { project: any, index: number }) {
+function ProjectCard({ project }: { project: Project }) {
   const { setHeroTexture } = useStore();
   
   return (

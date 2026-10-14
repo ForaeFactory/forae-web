@@ -1,6 +1,6 @@
 import { useStore } from "@/store/useStore";
 import { useEffect, useRef, useState } from "react";
-import { useInView, motion, AnimatePresence } from "framer-motion";
+import { useInView, motion } from "framer-motion";
 
 const WORDS = ["Strategy", "DesignOps", "Narrative", "Production", "Innovation"];
 

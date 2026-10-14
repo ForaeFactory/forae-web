@@ -2,7 +2,7 @@
 
 import { useStore, DEFAULT_HERO_TEXTURE } from "@/store/useStore";
 import { useEffect, useRef } from "react";
-import { useInView, motion, useScroll, useTransform } from "framer-motion";
+import { useInView, motion } from "framer-motion";
 import { agency } from "@/data/content";
 
 export default function AboutSection() {
@@ -99,7 +99,7 @@ export default function AboutSection() {
               <span className="text-4xl font-bold text-accent">20+</span>
             </div>
             <div>
-              <span className="block text-xs uppercase tracking-widest text-bg/40 mb-2">
+              <span className="block text-xs uppercase tracking-widest text-white/40 mb-2">
                 Clients
               </span>
               <span className="text-4xl font-bold text-accent">10+</span>

@@ -1,7 +1,6 @@
 "use client";
 
-import { useScroll, useTransform, motion } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import { projects } from "@/data/content";
 
 // Extract unique client names

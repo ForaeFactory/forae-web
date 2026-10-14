@@ -1,12 +1,13 @@
 import { create } from 'zustand';
+import type Lenis from 'lenis';
 
 interface State {
   activeSection: string;
   heroTexture: string;
-  lenis: any;
+  lenis: Lenis | null;
   setActiveSection: (section: string) => void;
   setHeroTexture: (texture: string) => void;
-  setLenis: (lenis: any) => void;
+  setLenis: (lenis: Lenis | null) => void;
 }
 
 export const DEFAULT_HERO_TEXTURE = '/images/hero/layers/rock-main.png';

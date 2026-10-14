@@ -2,7 +2,7 @@
 
 import { useStore, DEFAULT_HERO_TEXTURE } from '@/store/useStore';
 import { useEffect, useRef } from 'react';
-import { useInView, motion, useScroll, useTransform } from 'framer-motion';
+import { useInView, motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import { toolkit } from '@/data/content';
 
 export default function ToolkitSection() {
@@ -34,7 +34,7 @@ export default function ToolkitSection() {
   }, [isInView, setActiveSection, setHeroTexture]);
 
   // Helper to repeat items for "Infinite" feel
-  const Banner = ({ items, x, className }: { items: string[], x: any, className?: string }) => (
+  const Banner = ({ items, x, className }: { items: string[], x: MotionValue<string>, className?: string }) => (
      <motion.div style={{ x }} className={`flex whitespace-nowrap gap-10 md:gap-20 ${className}`}>
         {[...items, ...items, ...items].map((item, i) => (
            <span key={i} className="text-8xl md:text-[10rem] font-bold uppercase tracking-tighter leading-none shrink-0">

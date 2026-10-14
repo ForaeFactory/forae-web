@@ -1,6 +1,6 @@
 'use client';
 
-import { projects } from '@/data/content';
+import { projects, type Project } from '@/data/content';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -35,7 +35,7 @@ export default function MoreProjects({ currentSlug }: MoreProjectsProps) {
   );
 }
 
-function ProjectCard({ project, index }: { project: any, index: number }) {
+function ProjectCard({ project, index }: { project: Project, index: number }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -71,8 +71,13 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
               // Let's rely on hover for playback to be performant yet interactive.
               ref={(el) => {
                 if (el) {
-                  isHovered ? el.play() : el.pause();
-                  if (!isHovered) el.currentTime = 0;
+                  if (isHovered) {
+                    // play() rejects if interrupted by a pause; that's expected here.
+                    el.play().catch(() => {});
+                  } else {
+                    el.pause();
+                    el.currentTime = 0;
+                  }
                 }
               }}
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
